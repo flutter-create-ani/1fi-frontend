@@ -2,7 +2,16 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 export const getAllProducts = createAsyncThunk('product/getAllProducts', async (_, { rejectWithValue }) => {
   try {
-    const response = await fetch('/api/products', {
+    const baseUrl = import.meta.env.VITE_API_URL;
+    
+    if (!baseUrl) {
+      throw new Error('API URL is not configured. Please set VITE_API_URL in your .env file');
+    }
+
+    // Ensure baseUrl doesn't end with a slash and endpoint doesn't start with one
+    const url = `${baseUrl.replace(/\/$/, '')}/products`;
+
+    const response = await fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

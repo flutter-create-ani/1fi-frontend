@@ -22,6 +22,19 @@ const ProductLayer = () => {
       dispatch(getProductById(id));
     }
   }, [id, dispatch, productId]);
+
+  // Handle both array and single object responses - do this before conditional returns
+  const productData = product?.data ? (Array.isArray(product.data) ? product.data[0] : product.data) : null;
+  const variant = productData?.variant;
+
+  // Set default variant on mount - must be before conditional returns
+  useEffect(() => {
+    if (variant && variant.length > 0 && !selectedVariant) {
+      setSelectedVariant(variant[0]);
+    }
+  }, [variant, selectedVariant]);
+
+  // Now we can do conditional returns
   if (loading) {
     return <ShimmerLoader />;
   }
@@ -37,7 +50,7 @@ const ProductLayer = () => {
     );
   }
 
-  if (!product || !product.data) {
+  if (!product || !product.data || !productData) {
     return (
       <div className="flex items-center justify-center h-screen">
         <p className="text-gray-600">Product not found</p>
@@ -45,16 +58,7 @@ const ProductLayer = () => {
     );
   }
 
-  // Handle both array and single object responses
-  const productData = Array.isArray(product.data) ? product.data[0] : product.data;
-  const { name, description, price, variant, EmiOptions, storage, isNewProduct } = productData;
-
-  // Set default variant on mount
-  useEffect(() => {
-    if (variant && variant.length > 0 && !selectedVariant) {
-      setSelectedVariant(variant[0]);
-    }
-  }, [variant, selectedVariant]);
+  const { name, description, price, EmiOptions, storage, isNewProduct } = productData;
 
   // Get images from selected variant or first variant
   const getImages = () => {
