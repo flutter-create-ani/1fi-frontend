@@ -1,0 +1,30 @@
+/* Swiper Custom Styles for Product Layer */
+.product-swiper .swiper-button-next,
+.product-swiper .swiper-button-prev {
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  transition: background 0.3s;
+}
+
+.product-swiper .swiper-button-next:hover,
+.product-swiper .swiper-button-prev:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.product-swiper .swiper-button-next::after,
+.product-swiper .swiper-button-prev::after {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.product-swiper .swiper-pagination-bullet {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.product-swiper .swiper-pagination-bullet-active {
+  background: #2563eb;
+}
+
